@@ -33,4 +33,11 @@ impl GestionCommerciale {
             None => println!("Aucun client ne correspond à cet ID"),
         }
     }
+
+    pub fn afficher_tous_les_clients(&self) {
+        for (_, client) in self.clients.iter() {
+            let Client {id,name,email,adress: _,solde} = client;
+            println!("Liste des clients:\n id: {} nom: {} email: {}  solde: {}",id,name,email,solde);
+        }
+    }
 }

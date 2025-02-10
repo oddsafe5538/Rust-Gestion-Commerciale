@@ -11,4 +11,6 @@ fn main() {
         "123 Rue Principale".to_string(),
         100.0,
     );
+
+    gestion.afficher_tous_les_clients();
 }

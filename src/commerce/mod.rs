@@ -1,14 +1,17 @@
 use std::{collections::HashMap, iter::Product};
 
 pub mod client;
+pub mod commande;
 pub mod product;
 use crate::utils;
 use client::Client;
+use commande::Commande;
 use product::Produit;
 
 pub struct GestionCommerciale {
     clients: HashMap<u32, Client>,
     produits: HashMap<u32, Produit>,
+    commandes: HashMap<u32, Commande>,
 }
 
 impl GestionCommerciale {
@@ -16,6 +19,7 @@ impl GestionCommerciale {
         GestionCommerciale {
             clients: HashMap::new(),
             produits: HashMap::new(),
+            commandes: HashMap::new(),
         }
     }
     pub fn ajouter_client(
@@ -58,5 +62,24 @@ impl GestionCommerciale {
         let id = utils::generate_random_id();
         let product = product::Produit::new(id, nom, prix, stock);
         self.produits.insert(id, product);
+    }
+
+    pub fn creer_commande(&mut self, client_id: u32, produits: Vec<(u32, u32)>) -> () {
+        let id = utils::generate_random_id();
+        self.commandes
+            .insert(id, Commande::new(id, client_id, produits));
+    }
+
+    fn calculer_total(&self, produits: Vec<(u32, u32)>) -> f32 {
+        let mut total: f32 = 0.0;
+
+        for (produit_id, quantite) in produits.iter() {
+            match self.produits.get(produit_id) {
+                Some(produit) => total += (*quantite as f32) * produit.get_price(),
+                None => {}
+            }
+        }
+
+        total
     }
 }

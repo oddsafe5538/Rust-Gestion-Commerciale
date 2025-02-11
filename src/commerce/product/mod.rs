@@ -14,4 +14,8 @@ impl Produit {
             stock,
         }
     }
+
+    pub fn get_price(&self)-> f32 {
+        self.prix
+    }
 }

@@ -1,17 +1,21 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, iter::Product};
 
 pub mod client;
+pub mod product;
 use crate::utils;
 use client::Client;
+use product::Produit;
 
 pub struct GestionCommerciale {
     clients: HashMap<u32, Client>,
+    produits: HashMap<u32, Produit>,
 }
 
 impl GestionCommerciale {
     pub fn new() -> GestionCommerciale {
         GestionCommerciale {
             clients: HashMap::new(),
+            produits: HashMap::new(),
         }
     }
     pub fn ajouter_client(
@@ -36,8 +40,23 @@ impl GestionCommerciale {
 
     pub fn afficher_tous_les_clients(&self) {
         for (_, client) in self.clients.iter() {
-            let Client {id,name,email,adress: _,solde} = client;
-            println!("Liste des clients:\n id: {} nom: {} email: {}  solde: {}",id,name,email,solde);
+            let Client {
+                id,
+                name,
+                email,
+                adress: _,
+                solde,
+            } = client;
+            println!(
+                "Liste des clients:\n id: {} nom: {} email: {}  solde: {}",
+                id, name, email, solde
+            );
         }
+    }
+
+    pub fn ajouter_produit(&mut self, nom: String, prix: f32, stock: u32) {
+        let id = utils::generate_random_id();
+        let product = product::Produit::new(id, nom, prix, stock);
+        self.produits.insert(id, product);
     }
 }

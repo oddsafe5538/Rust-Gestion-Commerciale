@@ -13,4 +13,5 @@ fn main() {
     );
 
     gestion.afficher_tous_les_clients();
+    gestion.ajouter_produit("Livre".to_string(), 20.0, 5);
 }
